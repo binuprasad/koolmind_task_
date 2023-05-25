@@ -40,27 +40,42 @@ class LoginScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 20),
               ),
               Appconstants.height30,
-              TextformfieldWidget(
-                controller: logincontroller.emailController,
-                labeltext: 'Email',
+              Form(
+                key:logincontroller.formKey ,
+                child: Column(children: [
+                  TextformfieldWidget(
+                  controller: logincontroller.emailController,
+                  labeltext: 'Email',validator: (value) {
+                     logincontroller.emailValidator(value);
+                        return null;
+                  },
+                ),
+                Appconstants.height10,
+                Obx(
+                  () => TextformfieldWidget(
+                      labeltext: 'Password',
+                      obscureIcon: logincontroller.isobscure.value
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                          validator: (value){
+                             logincontroller.passwordValidator(value);
+                            return null;
+                          },
+                      controller: logincontroller.passwordController),
+                ),
+                ],),
               ),
-              Appconstants.height10,
-              Obx(
-                () => TextformfieldWidget(
-                    labeltext: 'Password',
-                    obscureIcon: logincontroller.isobscure.value
-                        ? Icons.visibility_off
-                        : Icons.visibility,
-                    controller: logincontroller.passwordController),
-              ),
+              
               Appconstants.height20,
               GetBuilder<LoginController>(builder: (controller) =>SizedBox(
                 width: Appconstants.width(context),
                 height: Appconstants.height(context) * 0.09,
                 child:GetBuilder<LoginController>(builder: (controller) => ElevatedButton(
                   onPressed: () {
+                   
                     
                    logincontroller. loginButtonFunction();
+                    logincontroller.buttonclickValidator();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
@@ -69,7 +84,7 @@ class LoginScreen extends StatelessWidget {
                     'Login',
                     style: TextStyle(fontSize: 20, color: Colors.white),
                   ),
-                ) ,)
+                ) ,),
                  
               ) ,),
               
@@ -89,7 +104,7 @@ class LoginScreen extends StatelessWidget {
                 height: Appconstants.height(context) * 0.09,
                 child: ElevatedButton(
                     onPressed: () {
-
+          
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,

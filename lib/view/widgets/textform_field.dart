@@ -10,16 +10,18 @@ class TextformfieldWidget extends StatelessWidget {
     super.key,
     required this.labeltext,
     required this.controller,
-    this.obscureIcon,
+    this.obscureIcon,  this.validator,
   });
   final String labeltext;
   final TextEditingController controller;
   final IconData? obscureIcon;
+ final String? Function(String?)? validator;
 final logincontroller = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      validator:validator ,
       obscureText: logincontroller.isobscure.value,
       decoration: InputDecoration(
         suffixIcon:  IconButton(icon:Icon(obscureIcon) , onPressed: () { 

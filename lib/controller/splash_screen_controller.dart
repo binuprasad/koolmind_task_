@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:get/get.dart';
 import 'package:kool_mind/view/screens/signin_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../view/screens/bottom_nav.dart';
 
 class SplashscreenController extends GetxController {
   @override
@@ -10,6 +13,24 @@ class SplashscreenController extends GetxController {
 
     super.onInit();
   }
+  checkUserLogin() async {
+    
+    SharedPreferences prf = await SharedPreferences.getInstance();
+    final token = prf.getString('token');
+    if (token == null || token.isEmpty) {
+      await Future.delayed(
+        const Duration(seconds: 5),
+      );
+      return Get.offAll(() => LoginScreen());
+    } else {
+      await Future.delayed(
+        const Duration(seconds: 5),
+      );
+
+      return Get.offAll(() => NavBar());
+    }
+  }
+
 
   Future<void> gotologin() async {
     Timer(
