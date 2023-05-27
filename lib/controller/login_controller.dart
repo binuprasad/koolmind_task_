@@ -13,9 +13,9 @@ class LoginController extends GetxController {
   final formKey = GlobalKey<FormState>();
   RxBool isobscure = false.obs;
   RxString device = ''.obs;
- @override
-  void onInit()  {
-  deviceInfo();
+  @override
+  void onInit() {
+    deviceInfo();
     super.onInit();
   }
 
@@ -32,33 +32,30 @@ class LoginController extends GetxController {
   loginButtonFunction() async {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
-    final  response =
-      await  AuthService().loginpageService(email, password, device.value,Appconstants.token);
-      log(response.toString());
-    if (response==null) {
+    final response = await AuthService()
+        .loginpageService(email, password, device.value, Appconstants.token);
+    log(response.toString());
+    if (response == null) {
       Get.snackbar('Warning!!!', response.toString(),
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.red.withOpacity(0.2));
-          update();
+      update();
     } else {
-      Get.off(()=> const HomeScreen());
+      Get.off(() => const HomeScreen());
       Get.snackbar(
         'Success',
         "Successfully logined",
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.green.withOpacity(0.2),
-        
       );
       SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(
-      'token',
-      response.accessToken
-    );
+      prefs.setString('token', response.accessToken);
 
       update();
     }
   }
-   buttonclickValidator() {
+
+  buttonclickValidator() {
     if (formKey.currentState!.validate()) {
       return;
     }
